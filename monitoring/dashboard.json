@@ -1,0 +1,599 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "ad8dv7l",
+    "namespace": "default",
+    "uid": "80b51fe6-abca-4a29-a5e0-1f08bac5ef2a",
+    "resourceVersion": "1793095064368012",
+    "generation": 1,
+    "creationTimestamp": "2026-10-27T09:57:44Z",
+    "labels": {
+      "grafana.app/deprecatedInternalID": "2831886058131456"
+    },
+    "annotations": {
+      "grafana.app/createdBy": "user:cg2h1tezinjeoe",
+      "grafana.app/saved-from-ui": "Grafana v13.2.4 (0e79aef9d9)"
+    }
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "grafana",
+            "version": "v0",
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "spec": {}
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "builtIn": true
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "description": "",
+    "editable": true,
+    "elements": {
+      "panel-1": {
+        "kind": "Panel",
+        "spec": {
+          "id": 1,
+          "title": "Activity & Request Rate",
+          "description": "CPU workload rate for web, catalogue, cart, and payment",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "prometheus"
+                      },
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"robot-shop\", pod=~\"web.*|catalogue.*|cart.*|payment.*\"}[2m]))",
+                        "legendFormat": "__auto",
+                        "range": true
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.4",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 1,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "id": 2,
+          "title": "Network Traffic & Throughput",
+          "description": "This tracks data volume transferred by the 4 services under the synthetic load-gen shopper traffic.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "prometheus"
+                      },
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum by (pod) (rate(container_network_receive_bytes_total{namespace=\"robot-shop\", pod=~\"web.*|catalogue.*|cart.*|payment.*\"}[2m]))\r\n",
+                        "legendFormat": "__auto",
+                        "range": true
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.4",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "Bps",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "id": 3,
+          "title": "Error Rate / Network Errors",
+          "description": "This tracks errors across the core services.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "prometheus"
+                      },
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum by (pod) (rate(container_network_transmit_errors_total{namespace=\"robot-shop\", pod=~\"web.*|catalogue.*|cart.*|payment.*\"}[2m]))\r\n",
+                        "legendFormat": "__auto",
+                        "range": true
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.4",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "bars",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "id": 4,
+          "title": "Service Memory Usage",
+          "description": "This ensures none of the core 4 services are close to OOM.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "prometheus"
+                      },
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum by (pod) (container_memory_working_set_bytes{namespace=\"robot-shop\", pod=~\"web.*|catalogue.*|cart.*|payment.*\"})\r\n",
+                        "legendFormat": "__auto",
+                        "range": true
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.4",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "GridLayout",
+      "spec": {
+        "items": [
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-1"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 0,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-2"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 8,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-3"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 8,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-4"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "tags": [],
+    "timeSettings": {
+      "timezone": "utc",
+      "from": "now-1h",
+      "to": "now",
+      "autoRefresh": "10s",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "Robot-Shop Core Services RED Dashboard",
+    "variables": [],
+    "preferences": {
+      "layout": {
+        "kind": "GridLayout",
+        "spec": {
+          "items": []
+        }
+      }
+    }
+  }
+}

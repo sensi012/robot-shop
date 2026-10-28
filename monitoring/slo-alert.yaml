@@ -1,0 +1,45 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: payment-slo-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: payment-slo
+      rules:
+        # Recording rule: track payment pod availability
+        - record: payment:availability:rate2m
+          expr: |
+            clamp_max(
+              sum(rate(container_cpu_usage_seconds_total{namespace="robot-shop", pod=~"payment.*"}[2m])),
+              1
+            )
+
+        # Alert: Payment service is down (no CPU = no running container)
+        - alert: PaymentHighErrorRate
+          expr: |
+            absent(container_cpu_usage_seconds_total{namespace="robot-shop", pod=~"payment.*"})
+            or
+            sum(rate(container_cpu_usage_seconds_total{namespace="robot-shop", pod=~"payment.*"}[2m])) == 0
+          for: 1m
+          labels:
+            severity: critical
+            team: payments
+          annotations:
+            summary: "Payment service unavailable — SLO at risk"
+            description: "The payment service has stopped processing. Error budget consumption is accelerating. Immediate action required."
+            runbook_url: "https://github.com/your-username/robot-shop/blob/main/docs/runbook.md"
+
+        # Warning: Payment pod restarts indicate instability
+        - alert: PaymentPodRestarts
+          expr: |
+            increase(kube_pod_container_status_restarts_total{namespace="robot-shop", pod=~"payment.*"}[10m]) > 2
+          for: 2m
+          labels:
+            severity: warning
+            team: payments
+          annotations:
+            summary: "Payment pod restarting frequently"
+            description: "The payment pod has restarted more than 2 times in the last 10 minutes, indicating instability."

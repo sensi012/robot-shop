@@ -1,0 +1,22 @@
+# Fluent Bit configuration to collect container logs from robot-shop and forward to Loki
+
+config:
+  inputs: |
+    [INPUT]
+        Name              tail
+        Tag               kube.*
+        Path              /var/log/containers/*_robot-shop_*.log
+        Parser            docker
+        DB                /var/log/flb_kube.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+  outputs: |
+    [OUTPUT]
+        Name        loki
+        Match       kube.*
+        Host        loki.monitoring.svc.cluster.local
+        Port        3100
+        Labels      job=fluentbit, namespace=robot-shop
+        Auto_Kubernetes_Labels on
